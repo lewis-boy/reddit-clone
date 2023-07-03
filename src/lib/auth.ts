@@ -21,6 +21,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    //a normal google session payload has a user field
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id
@@ -31,6 +32,8 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
+    //a normal google jwt payload has fields: name, email, picture
+    //we added fields: id, username
     async jwt({ token, user }) {
       const dbUser = await db.user.findFirst({
         where: {
