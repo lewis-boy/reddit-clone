@@ -6,6 +6,7 @@ import { nanoid } from "nanoid"
 import { NextAuthOptions, getServerSession } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
+//this just gives you the Options Structure
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
@@ -72,4 +73,5 @@ export const authOptions: NextAuthOptions = {
   },
 }
 
+//getServerSession gives you access to the session
 export const getAuthSession = () => getServerSession(authOptions)
