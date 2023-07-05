@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import Providers from '@/components/Providers';
 import { Toaster } from '@/components/ui/Toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
@@ -22,14 +23,17 @@ export default function RootLayout({
     <html lang='en' className={cn('bg-white text-slate-900 antialias light', inter.className)}>
       <body className='min-h-screen pt-12 bg-slate-50 antialias'>
         {/* typescript doesn't know how to handle react server components (async behaviors) */}
-        {/* @ts-expect-error server component */}
-        <Navbar />
-        {authModal}
+        <Providers>
+          {/* @ts-expect-error server component */}
+          <Navbar />
+          {authModal}
 
-        <div className='container max-w-7xl mx-auto h-full pt-12'>
-          {children}
-        </div>
-        <Toaster />
+          <div className='container max-w-7xl mx-auto h-full pt-12'>
+            {children}
+          </div>
+          <Toaster />
+
+        </Providers>
       </body>
     </html>
   )
