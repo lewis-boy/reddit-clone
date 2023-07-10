@@ -7,6 +7,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
+import Post from './Post'
 
 interface PostFeedProps {
     initialPosts: ExtendedPost[],
@@ -16,7 +17,7 @@ interface PostFeedProps {
 const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
 
     const lastPostRef = useRef<HTMLElement>(null);
-    const { ref, entry } = useIntersection({
+    const { ref: intersectionRef, entry } = useIntersection({
         root: lastPostRef.current,
         threshold: 1
     })
@@ -54,11 +55,15 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
                 //we can't fetch the session using our handy GetAuthSession helper because that is only for Server Files
                 const currentVote = post.votes.find((vote) => vote.userId === session?.user.id)
 
-                return (
-                    <div key={index} className="">
-
-                    </div>
-                )
+                if (index === posts.length - 1) {
+                    return (
+                        <li key={post.id} ref={intersectionRef}>
+                            <Post post={post} subredditName={post.subreddit.name} commentAmt={post.comments.length} />
+                        </li>
+                    )
+                } else {
+                    return <Post post={post} key={post.id} subredditName={post.subreddit.name} commentAmt={post.comments.length} />
+                }
             })}
         </ul>
     )
