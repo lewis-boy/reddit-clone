@@ -1,14 +1,24 @@
+import CustomFeed from "@/components/CustomFeed";
+import GeneralFeed from "@/components/GeneralFeed";
 import { buttonVariants } from "@/components/ui/Button";
+import { getAuthSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getAuthSession();
+
   return (
     <div>
       <h1 className="font-bold text-3xl md:text-4xl">Your feed</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
-        {/* feed  */}
+        {/* display either custom feed or general feed  */}
+        {/* Error: Its return type 'Promise<Element>' is not a valid JSX element */}
+        {/* Basically typescript doesn't know about server components yet */}
+        {/* @ts-expect-error server component */}
+        {session ? <CustomFeed /> : <GeneralFeed />}
+
         {/* subreddit info  */}
         <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
           <div className="bg-emerald-100 px-6 py-4">
