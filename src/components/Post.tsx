@@ -49,7 +49,7 @@ const Post: FC<PostProps> = ({ subredditName, post, commentAmt, votesAmt, curren
                         {formatTimeToNow(new Date(post.createdAt))}
                     </div>
                     {/* we want a hard reset to refresh the comments since fetched server-side */}
-                    <a href={`/r/${subredditName}/post/${post.id}}`}>
+                    <a href={`/r/${subredditName}/post/${post.id}`}>
                         <h1 className='text-lg font-semibold py-2 leading-6 text-gray-900'>
                             {post.title}
                         </h1>
