@@ -39,7 +39,6 @@ export async function PATCH(req: Request) {
     }
 
     if (existingVote) {
-      console.log("EXISTING VOTE")
       if (existingVote.type === voteType) {
         await db.vote.delete({
           where: {
@@ -87,7 +86,6 @@ export async function PATCH(req: Request) {
       return new Response("OK")
     }
 
-    console.log("NOT EX")
     //What if the vote does not already exist??
     await db.vote.create({
       data: {
