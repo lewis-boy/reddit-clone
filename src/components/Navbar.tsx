@@ -3,6 +3,7 @@ import { Icons } from "./Icons";
 import { buttonVariants } from "./ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import UserAccountNav from "./UserAccountNav";
+import SearchBar from "./SearchBar";
 
 const Navbar = async () => {
     const session = await getAuthSession();
@@ -17,6 +18,8 @@ const Navbar = async () => {
                 </Link>
 
                 {/* search bar */}
+                <SearchBar />
+
                 {/* buttonVariants makes the Link look like a button 
                 Buttons require user interaction, which would need this to be a client page
                 We want to avoid that, so we use Links and make them look like buttons */}
