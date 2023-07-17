@@ -45,7 +45,7 @@ const Post: FC<PostProps> = ({ subredditName, post, commentAmt, votesAmt, curren
                         ) : (
                             null
                         )}
-                        <span>Posted by u/{post.author.name}</span>{' '}
+                        <span>Posted by u/{post.author.username}</span>{' '}
                         {formatTimeToNow(new Date(post.createdAt))}
                     </div>
                     {/* we want a hard reset to refresh the comments since fetched server-side */}
