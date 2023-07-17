@@ -1,13 +1,14 @@
 'use client'
 
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandList, CommandItem } from './ui/Command'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Prisma, Subreddit } from '@prisma/client'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Users } from 'lucide-react'
 import debounce from 'lodash.debounce'
+import { useOnClickOutside } from '@/hooks/use-on-click-outside'
 
 interface SearchBarProps {
 
@@ -16,6 +17,8 @@ interface SearchBarProps {
 const SearchBar: FC<SearchBarProps> = ({ }) => {
     const [input, setInput] = useState<string>('')
     const router = useRouter()
+    const commandRef = useRef<HTMLDivElement>(null)
+    const pathname = usePathname()
 
 
     const { data: queryResults, refetch, isFetched, isFetching } = useQuery({
@@ -37,12 +40,22 @@ const SearchBar: FC<SearchBarProps> = ({ }) => {
     const request = debounce(() => {
         refetch()
     }, 300)
+
     const debounceRequest = useCallback(() => {
         request()
     }, [])
 
+    useOnClickOutside(commandRef, () => {
+        setInput('')
+    })
+
+
+    useEffect(() => {
+        setInput('')
+    }, [pathname])
+
     return (
-        <Command className='relative rounded-lg border max-w-lg z-50 overflow-visible'>
+        <Command ref={commandRef} className='relative rounded-lg border max-w-lg z-50 overflow-visible'>
             <CommandInput
                 className='outline-none border-none focus:border-none focus:outline-none ring-0'
                 placeholder='Search communities...'
